@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hand.mapper.OrderMasterMapper">
+    <resultMap id="orderMasterResultMap" type="com.hand.dto.OrderMasterDto">
+        <id column="orderId" jdbcType="VARCHAR" property="orderId" />
+        <result column="buyerName" jdbcType="VARCHAR" property="buyerName"/>
+        <result column="buyerPhone" jdbcType="VARCHAR" property="buyerPhone"/>
+        <result column="buyerAddress" jdbcType="VARCHAR" property="buyerAddress"/>
+        <result column="buyerOpenid" jdbcType="VARCHAR" property="buyerOpenid"/>
+        <result column="orderAmount" jdbcType="DECIMAL" property="orderAmount"/>
+        <result column="orderStatus" jdbcType="INTEGER" property="orderStatus"/>
+        <result column="payStatus" jdbcType="INTEGER" property="payStatus"/>
+        <result column="createTime" jdbcType="DATE" property="createTime"/>
+        <result column="updateTime" jdbcType="DATE" property="updateTime"/>
+        <!-- 集合中的property须为oftype定义的pojo对象的属性-->
+        <collection property="orderDetails" ofType="com.hand.dataobject.OrderDetails">
+            <id column="detailId" jdbcType="VARCHAR" property="detailId" />
+            <result column="productId" jdbcType="VARCHAR" property="productId" />
+            <result column="productName" jdbcType="VARCHAR" property="productName" />
+            <result column="productPrice" jdbcType="DECIMAL" property="productPrice" />
+            <result column="productQuantity" jdbcType="INTEGER" property="productQuantity" />
+            <result column="productIcon" jdbcType="VARCHAR" property="productIcon" />
+            <result column="createTimeB" jdbcType="DATE" property="createTime" />
+            <result column="updateTimeB" jdbcType="DATE" property="updateTime" />
+        </collection>
+    </resultMap>
+    <select id="findByBuyerOpenId" parameterType="java.lang.String" resultMap="orderMasterResultMap">
+       SELECT
+            A.ORDER_ID orderId,
+            A.BUYER_NAME buyerName,
+            A.BUYER_PHONE buyerPhone,
+            A.BUYER_ADDRESS buyerAddress,
+            A.BUYER_OPENID buyerOpenid,
+            A.ORDER_AMOUNT orderAmount,
+            A.ORDER_STATUS orderStatus,
+            A.PAY_STATUS payStatus,
+            A.CREATE_TIME createTime,
+            A.UPDATE_TIME updateTime,
+            B.DETAIL_ID detailId,
+            B.PRODUCT_ID productId,
+            B.PRODUCT_NAME productName,
+            B.PRODUCT_PRICE productPrice,
+            B.PRODUCT_QUANTITY productQuantity,
+            B.PRODUCT_ICON productIcon,
+            B.CREATE_TIME createTimeB,
+            B.UPDATE_TIME updateTimeB
+        FROM
+            order_master A LEFT JOIN order_details B
+        ON (A.ORDER_ID = B.ORDER_ID)
+
+        WHERE
+            BUYER_OPENID = #{buyerOpenId}
+    </select>
+    <select id="findByOrderId" parameterType="java.lang.String" resultMap="orderMasterResultMap">
+            SELECT
+            A.ORDER_ID orderId,
+            A.BUYER_NAME buyerName,
+            A.BUYER_PHONE buyerPhone,
+            A.BUYER_ADDRESS buyerAddress,
+            A.BUYER_OPENID buyerOpenid,
+            A.ORDER_AMOUNT orderAmount,
+            A.ORDER_STATUS orderStatus,
+            A.PAY_STATUS payStatus,
+            A.CREATE_TIME createTime,
+            A.UPDATE_TIME updateTime,
+            B.DETAIL_ID detailId,
+            B.PRODUCT_ID productId,
+            B.PRODUCT_NAME productName,
+            B.PRODUCT_PRICE productPrice,
+            B.PRODUCT_QUANTITY productQuantity,
+            B.PRODUCT_ICON productIcon,
+            B.CREATE_TIME createTimeB,
+            B.UPDATE_TIME updateTimeB
+        FROM
+            order_master A LEFT JOIN order_details B
+        ON (A.ORDER_ID = B.ORDER_ID)
+
+        WHERE
+          A.ORDER_ID=#{orderId}
+    </select>
+    <select id="findAll" resultMap="orderMasterResultMap">
+      SELECT
+            A.ORDER_ID orderId,
+            A.BUYER_NAME buyerName,
+            A.BUYER_PHONE buyerPhone,
+            A.BUYER_ADDRESS buyerAddress,
+            A.BUYER_OPENID buyerOpenid,
+            A.ORDER_AMOUNT orderAmount,
+            A.ORDER_STATUS orderStatus,
+            A.PAY_STATUS payStatus,
+            A.CREATE_TIME createTime,
+            A.UPDATE_TIME updateTime,
+            B.DETAIL_ID detailId,
+            B.PRODUCT_ID productId,
+            B.PRODUCT_NAME productName,
+            B.PRODUCT_PRICE productPrice,
+            B.PRODUCT_QUANTITY productQuantity,
+            B.PRODUCT_ICON productIcon,
+            B.CREATE_TIME createTimeB,
+            B.UPDATE_TIME updateTimeB
+        FROM
+            order_master A LEFT JOIN order_details B
+        ON (A.ORDER_ID = B.ORDER_ID)
+        GROUP BY A.ORDER_ID
+    </select>
+</mapper>

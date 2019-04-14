@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hand.mapper.OrderDetailsMapper">
+    <select id="findByOrderId" parameterType="String" resultType="com.hand.dataobject.OrderDetails">
+        SELECT * FROM order_details WHERE order_id = #{orderId}
+    </select>
+</mapper>

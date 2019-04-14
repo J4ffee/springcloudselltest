@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hand.mapper.ProductCategoryMapper">
+    <select id="findByCategoryTypeIn" parameterType="java.util.ArrayList" resultType="com.hand.dataobject.ProductCategory">
+        SELECT CATEGORY_ID categoryId,CATEGORY_NAME categoryName,CATEGORY_TYPE categoryType,CREATE_TIME createTime,UPDATE_TIME updateTime
+        FROM product_category WHERE CATEGORY_TYPE IN
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+    <select id="getOne" parameterType="java.lang.Integer" resultType="com.hand.dataobject.ProductCategory">
+        SELECT CATEGORY_ID categoryId,CATEGORY_NAME categoryName,CATEGORY_TYPE categoryType,CREATE_TIME createTime,UPDATE_TIME updateTime
+        FROM product_category WHERE CATEGORY_ID=#{categoryId}
+    </select>
+    <select id="findAll" resultType="com.hand.dataobject.ProductCategory">
+        SELECT CATEGORY_ID categoryId,CATEGORY_NAME categoryName,CATEGORY_TYPE categoryType,CREATE_TIME createTime,UPDATE_TIME updateTime
+        FROM product_category
+    </select>
+    <insert id="save" parameterType="com.hand.dataobject.ProductCategory" useGeneratedKeys="true" keyProperty="categoryId">
+        INSERT INTO product_category (CATEGORY_ID,CATEGORY_NAME,CATEGORY_TYPE,CREATE_TIME,UPDATE_TIME) VALUES
+        (#{categoryId},#{categoryName},#{categoryType},#{createTime},#{updateTime})
+    </insert>
+</mapper>
